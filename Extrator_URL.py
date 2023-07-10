@@ -1,13 +1,22 @@
+import re
 class Extrator_URL:
     def __init__(self, url):
         self.url = self.sanitiza_url(url)
         self.valida_url()
 
     def sanitiza_url(self, url):
-        return url.strip()
+        if type(url) == str:
+            return url.strip()
+        else:
+            return ""
     def valida_url(self):
-        if self.url =="":
+        if not self.url:
             raise ValueError("A URL está vazia")
+
+        padrao_url = re.compile('(http(s)?://)?(www.)?bytebank.com(.br)?/cambio')
+        match = padrao_url.match(self.url)
+        if not match:
+            raise ValueError("A URL não é valida.")
 
     def get_url_base(self):
         indice_interrogacao = self.url.find('?')
